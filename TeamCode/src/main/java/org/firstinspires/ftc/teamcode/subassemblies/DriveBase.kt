@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.subassemblies
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
+import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotor.RunMode
 import com.qualcomm.robotcore.hardware.DcMotorEx
@@ -12,9 +12,8 @@ import org.firstinspires.ftc.teamcode.util.log
 import org.firstinspires.ftc.teamcode.util.powerCurve
 import kotlin.math.abs
 import kotlin.math.max
-import kotlin.math.roundToInt
 
-class DriveBase(opMode: LinearOpMode) : Subassembly(opMode, "Drive Base") {
+class DriveBase(opMode: OpMode) : Subassembly(opMode, "Drive Base") {
 
     val leftFront = hardwareMap.dcMotor.get("left_front")
     val rightFront = hardwareMap.dcMotor.get("right_front")
@@ -188,20 +187,6 @@ class DriveBase(opMode: LinearOpMode) : Subassembly(opMode, "Drive Base") {
             motors[i].power = power
         }
         return power
-    }
-
-    fun yaw(radians: Double, direction: TurnDirection) {
-        setMode(RunMode.STOP_AND_RESET_ENCODER)
-        val angle = when(direction) {
-            TurnDirection.LEFT -> radians
-            TurnDirection.RIGHT -> -radians
-        }
-
-        val ticks = angle * wheelBaseWidth/2 * motorEncoderEventsPerMM
-        setTargetPositions(ticks.roundToInt(), -ticks.roundToInt(), ticks.roundToInt(), -ticks.roundToInt())
-        setMode(RunMode.RUN_TO_POSITION)
-        setPower(0.7, 0.7, 0.7, 0.7)
-        while(motors.any { it.isBusy }) opMode.idle()
     }
 
     enum class TravelDirection { // see this link on enum naming convention: https://kotlinlang.org/docs/coding-conventions.html#names-for-backing-properties
