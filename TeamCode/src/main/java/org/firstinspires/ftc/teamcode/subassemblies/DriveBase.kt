@@ -34,10 +34,10 @@ class DriveBase(opMode: OpMode) : Subassembly(opMode, "Drive Base") {
 
     init {
         // direction = FORWARD by default
-        //leftFront.direction = DcMotorSimple.Direction.REVERSE
-        rightFront.direction = DcMotorSimple.Direction.REVERSE
+        leftFront.direction = DcMotorSimple.Direction.REVERSE
+//        rightFront.direction = DcMotorSimple.Direction.REVERSE
         leftRear.direction = DcMotorSimple.Direction.REVERSE
-        //rightRear.direction = DcMotorSimple.Direction.REVERSE
+//        rightRear.direction = DcMotorSimple.Direction.REVERSE
 
         opMode.log("DriveBase successfully initialized")
     }

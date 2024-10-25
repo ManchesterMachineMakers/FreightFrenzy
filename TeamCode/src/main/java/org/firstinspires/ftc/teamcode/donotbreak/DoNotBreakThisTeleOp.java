@@ -18,8 +18,8 @@ public class DoNotBreakThisTeleOp extends LinearOpMode {
 
         configMotor(leftFront, DcMotorSimple.Direction.REVERSE);
         configMotor(rightFront, DcMotorSimple.Direction.FORWARD);
-        configMotor(leftRear, DcMotorSimple.Direction.FORWARD);
-        configMotor(rightRear, DcMotorSimple.Direction.REVERSE);
+        configMotor(leftRear, DcMotorSimple.Direction.REVERSE);
+        configMotor(rightRear, DcMotorSimple.Direction.FORWARD);
 
         waitForStart();
 
