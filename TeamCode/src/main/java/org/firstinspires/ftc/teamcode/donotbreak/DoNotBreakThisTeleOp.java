@@ -38,11 +38,21 @@ public class DoNotBreakThisTeleOp extends LinearOpMode {
                 double rightFrontPower = (leftY - leftX - rightX) / denominator;
                 double leftRearPower = (leftY - leftX + rightX) / denominator;
                 double rightRearPower = (leftY + leftX - rightX) / denominator;
-
+                
+                if (gamepad1.right_trigger > .1)
+                {
+                    leftFrontPower = 1;
+                    rightFrontPower = 1;
+                    leftRearPower = 1;
+                    rightRearPower = 1;
+                }
                 leftFront.setPower(leftFrontPower);
                 rightFront.setPower(rightFrontPower);
                 leftRear.setPower(leftRearPower);
                 rightRear.setPower(rightRearPower);
+
+                
+                
             }
         }
     }
