@@ -77,7 +77,7 @@ public class LocalizationTest extends OpMode {
     }
 
     /**
-     * This updates the robot's pose estimate, the simple mecanum drive, and updates the FTC
+     * This updates the robot's pose estimate, the mecanum drive, and updates the FTC
      * Dashboard telemetry with the robot's position as well as draws the robot's position.
      */
     @Override
@@ -85,23 +85,7 @@ public class LocalizationTest extends OpMode {
         poseUpdater.update();
         dashboardPoseTracker.update();
 
-        double y = -gamepad1.left_stick_y; // Remember, this is reversed!
-        double x = gamepad1.left_stick_x; // this is strafing
-        double rx = gamepad1.right_stick_x;
-
-        // Denominator is the largest motor power (absolute value) or 1
-        // This ensures all the powers maintain the same ratio, but only when
-        // at least one is out of the range [-1, 1]
-        double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
-        double leftFrontPower = (y + x + rx) / denominator;
-        double leftRearPower = (y - x + rx) / denominator;
-        double rightFrontPower = (y - x - rx) / denominator;
-        double rightRearPower = (y + x - rx) / denominator;
-
-        leftFront.setPower(leftFrontPower);
-        leftRear.setPower(leftRearPower);
-        rightFront.setPower(rightFrontPower);
-        rightRear.setPower(rightRearPower);
+        driveBase.control(gamepad1);
 
         telemetryA.addData("x", poseUpdater.getPose().getX());
         telemetryA.addData("y", poseUpdater.getPose().getY());

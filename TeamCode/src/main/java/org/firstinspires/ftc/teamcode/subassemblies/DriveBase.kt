@@ -61,10 +61,10 @@ class DriveBase(opMode: OpMode) : Subassembly(opMode, "Drive Base") {
         // This ensures all the powers maintain the same ratio,
         // but only if at least one is out of the range [-1, 1]
         val denominator = max(abs(leftY) + abs(leftX) + abs(rightX), 1.0)
-        val leftFrontPower = (leftY + leftX + rightX)
-        val rightFrontPower = (leftY - leftX - rightX)
-        val leftRearPower = (leftY - leftX + rightX)
-        val rightRearPower = (leftY + leftX - rightX)
+        val leftFrontPower = (leftY + leftX + rightX) / denominator
+        val rightFrontPower = (leftY - leftX - rightX) / denominator
+        val leftRearPower = (leftY - leftX + rightX) / denominator
+        val rightRearPower = (leftY + leftX - rightX) / denominator
 
         leftFront.power = powerCurve(leftFrontPower)
         rightFront.power = powerCurve(rightFrontPower)
