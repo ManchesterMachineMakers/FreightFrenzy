@@ -17,7 +17,6 @@ class MainTeleOp: LinearOpMode() {
         // add other subassemblies here
 
         val loopTime = ElapsedTime()
-        val subassemblyList = listOf(driveBase)
         driveBase.opInit()
 
         waitForStart()

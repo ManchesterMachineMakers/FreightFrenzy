@@ -61,7 +61,6 @@ public class OTOSLocalizer extends Localizer {
     public OTOSLocalizer(HardwareMap map, Pose setStartPose) {
         hardwareMap = map;
 
-        // TODO: replace this with your OTOS port
         otos = hardwareMap.get(SparkFunOTOS.class, "sensor_otos");
 
         otos.setLinearUnit(DistanceUnit.INCH);
@@ -74,8 +73,8 @@ public class OTOSLocalizer extends Localizer {
         otos.setOffset(new SparkFunOTOS.Pose2D(0,0,Math.PI / 2));
 
         // TODO: replace these with your tuned multipliers
-        otos.setLinearScalar(1.0);
-        otos.setAngularScalar(1.0);
+        otos.setLinearScalar(1.086); // 1.086 for Cordelia
+        otos.setAngularScalar(1.283); // 1.283 for Cordelia
 
         otos.calibrateImu();
         otos.resetTracking();
