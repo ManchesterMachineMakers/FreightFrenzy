@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.subassemblies
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
+import com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior
 import com.qualcomm.robotcore.hardware.DcMotorSimple
 import com.qualcomm.robotcore.hardware.Gamepad
 import org.firstinspires.ftc.teamcode.util.Subassembly
@@ -11,6 +12,8 @@ class TankDriveBase(opMode: LinearOpMode) : Subassembly(opMode, "Tank Drive Base
     // get motor names from our configuration, and give them our own name
     private val leftDrive = hardwareMap.dcMotor.get("left")
     private val rightDrive = hardwareMap.dcMotor.get("right")
+
+    val motors = listOf(leftDrive, rightDrive)
 
     init {
         // direction = FORWARD by default
@@ -23,6 +26,8 @@ class TankDriveBase(opMode: LinearOpMode) : Subassembly(opMode, "Tank Drive Base
     }
 
     fun control(gamepad: Gamepad) {
+        zeroPowerBehavior = ZeroPowerBehavior.BRAKE
+
         val leftY: Double = -gamepad.left_stick_y.toDouble()
         val rightX: Double = gamepad.right_stick_x.toDouble()
 
@@ -34,4 +39,10 @@ class TankDriveBase(opMode: LinearOpMode) : Subassembly(opMode, "Tank Drive Base
         leftDrive.power = leftPower
         rightDrive.power = rightPower
     }
+
+    var zeroPowerBehavior: ZeroPowerBehavior = ZeroPowerBehavior.UNKNOWN
+        set(value) {
+            for (motor in motors) motor.zeroPowerBehavior = value
+            field = value
+        }
 }

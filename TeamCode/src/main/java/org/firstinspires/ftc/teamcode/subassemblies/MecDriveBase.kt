@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.subassemblies
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
+import com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior
+import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.DcMotorSimple
 import com.qualcomm.robotcore.hardware.Gamepad
 import org.firstinspires.ftc.teamcode.util.Subassembly
@@ -16,17 +18,22 @@ class MecDriveBase(opMode: LinearOpMode) : Subassembly(opMode, "Mecanum Drive Ba
     private val leftRear = hardwareMap.dcMotor.get("left_rear")
     private val rightRear = hardwareMap.dcMotor.get("right_rear")
 
+    private val motors = listOf(leftFront, rightFront, leftRear, rightRear)
+
     init {
         // direction = FORWARD by default
-        //leftFront.direction = DcMotorSimple.Direction.REVERSE
-        rightFront.direction = DcMotorSimple.Direction.REVERSE
+        leftFront.direction = DcMotorSimple.Direction.REVERSE
+//        rightFront.direction = DcMotorSimple.Direction.REVERSE
         leftRear.direction = DcMotorSimple.Direction.REVERSE
-        //rightRear.direction = DcMotorSimple.Direction.REVERSE
+//        rightRear.direction = DcMotorSimple.Direction.REVERSE
+
 
         opMode.log("DriveBase successfully initialized")
     }
 
     fun control(gamepad: Gamepad) {
+        zeroPowerBehavior = ZeroPowerBehavior.BRAKE
+
         // from https://gm0.org/en/latest/docs/software/tutorials/mecanum-drive.html
         val leftX: Double = -gamepad.left_stick_x.toDouble()
         val leftY: Double = gamepad.left_stick_y.toDouble()
@@ -55,4 +62,10 @@ class MecDriveBase(opMode: LinearOpMode) : Subassembly(opMode, "Mecanum Drive Ba
         super.telemetry()
         telemetry.addLine()
     }
+
+    var zeroPowerBehavior: ZeroPowerBehavior = ZeroPowerBehavior.UNKNOWN
+        set(value) {
+            for (motor in motors) motor.zeroPowerBehavior = value
+            field = value
+        }
 }
