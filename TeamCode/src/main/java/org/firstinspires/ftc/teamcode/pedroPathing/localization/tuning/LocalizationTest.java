@@ -7,14 +7,13 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.PoseUpdater;
 import org.firstinspires.ftc.teamcode.pedroPathing.util.DashboardPoseTracker;
 import org.firstinspires.ftc.teamcode.pedroPathing.util.Drawing;
-import org.firstinspires.ftc.teamcode.subassemblies.DriveBase;
+import org.firstinspires.ftc.teamcode.subassemblies.MecDriveBase;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,7 +30,7 @@ import java.util.List;
 @TeleOp(group = "Pedro Pathing Tuning", name = "Localization Test")
 public class LocalizationTest extends OpMode {
     private PoseUpdater poseUpdater;
-    private DriveBase driveBase;
+    private MecDriveBase driveBase;
     private DashboardPoseTracker dashboardPoseTracker;
     private Telemetry telemetryA;
 
@@ -47,7 +46,7 @@ public class LocalizationTest extends OpMode {
     @Override
     public void init() {
         poseUpdater = new PoseUpdater(hardwareMap);
-        driveBase = new DriveBase(this);
+        driveBase = new MecDriveBase(this);
         dashboardPoseTracker = new DashboardPoseTracker(poseUpdater);
 
         leftFront = (DcMotorEx) driveBase.getLeftFront();

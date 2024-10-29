@@ -11,7 +11,8 @@ class EmptyAuto: LinearOpMode() {
 
         if (opModeIsActive()) {
             while (opModeIsActive()) {
-                sleep(100)
+                telemetry.addLine("Not much to see here")
+                idle()
             }
         }
     }

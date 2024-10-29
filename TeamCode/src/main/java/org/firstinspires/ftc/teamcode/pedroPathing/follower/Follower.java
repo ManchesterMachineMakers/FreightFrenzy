@@ -39,7 +39,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.util.Drawing;
 import org.firstinspires.ftc.teamcode.pedroPathing.util.FilteredPIDFController;
 import org.firstinspires.ftc.teamcode.pedroPathing.util.KalmanFilter;
 import org.firstinspires.ftc.teamcode.pedroPathing.util.PIDFController;
-import org.firstinspires.ftc.teamcode.subassemblies.DriveBase;
+import org.firstinspires.ftc.teamcode.subassemblies.MecDriveBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +56,7 @@ import java.util.List;
 @Config
 public class Follower {
     private HardwareMap hardwareMap;
-    private DriveBase driveBase;
+    private MecDriveBase driveBase;
 
     private DcMotorEx leftFront;
     private DcMotorEx leftRear;
@@ -143,7 +143,7 @@ public class Follower {
      *
      * @param driveBase DriveBase required
      */
-    public Follower(DriveBase driveBase) {
+    public Follower(MecDriveBase driveBase) {
         this.driveBase = driveBase;
         initialize();
     }

@@ -1,8 +1,7 @@
 package org.firstinspires.ftc.teamcode.subassemblies
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
+import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior
-import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.DcMotorSimple
 import com.qualcomm.robotcore.hardware.Gamepad
 import org.firstinspires.ftc.teamcode.util.Subassembly
@@ -11,12 +10,12 @@ import org.firstinspires.ftc.teamcode.util.powerCurve
 import kotlin.math.abs
 import kotlin.math.max
 
-class MecDriveBase(opMode: LinearOpMode) : Subassembly(opMode, "Mecanum Drive Base") {
+class MecDriveBase(opMode: OpMode) : Subassembly(opMode, "Mecanum Drive Base") {
 
-    private val leftFront = hardwareMap.dcMotor.get("left_front")
-    private val rightFront = hardwareMap.dcMotor.get("right_front")
-    private val leftRear = hardwareMap.dcMotor.get("left_rear")
-    private val rightRear = hardwareMap.dcMotor.get("right_rear")
+    val leftFront = hardwareMap.dcMotor.get("left_front")
+    val rightFront = hardwareMap.dcMotor.get("right_front")
+    val leftRear = hardwareMap.dcMotor.get("left_rear")
+    val rightRear = hardwareMap.dcMotor.get("right_rear")
 
     private val motors = listOf(leftFront, rightFront, leftRear, rightRear)
 
