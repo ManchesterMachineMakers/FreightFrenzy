@@ -1,19 +1,21 @@
 package org.firstinspires.ftc.teamcode.opmodes
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.util.ElapsedTime
-import org.firstinspires.ftc.teamcode.subassemblies.MecDriveBase
+import org.firstinspires.ftc.teamcode.subassemblies.TankDriveBase
 import org.firstinspires.ftc.teamcode.util.log
 
-@TeleOp(name = "Main TeleOp (preferred)", group = "main")
-class MainTeleOp: LinearOpMode() {
+@Disabled
+@TeleOp(name = "Tank TeleOp", group = "special")
+class TankTeleOp : LinearOpMode() {
 
     override fun runOpMode() {
         // init, no movement allowed
         telemetry.isAutoClear = false
 
-        val driveBase = MecDriveBase(this)
+        val driveBase = TankDriveBase(this)
         // add other subassemblies here
 
         val loopTime = ElapsedTime()
