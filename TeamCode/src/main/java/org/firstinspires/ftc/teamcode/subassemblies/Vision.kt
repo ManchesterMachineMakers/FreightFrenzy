@@ -9,6 +9,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit
 import org.firstinspires.ftc.teamcode.util.DashOpMode
 import org.firstinspires.ftc.teamcode.util.log
+import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase
 
 class Vision(opMode: LinearOpMode) {
     private val hardwareMap = opMode.hardwareMap
@@ -19,6 +20,7 @@ class Vision(opMode: LinearOpMode) {
     // http://localhost:63342/RobotController/Vision-9.0.1-javadoc.jar/org/firstinspires/ftc/vision/apriltag/AprilTagProcessor.Builder.html
     val aprilTag = AprilTagProcessor.Builder()
             .setOutputUnits(DistanceUnit.MM, AngleUnit.DEGREES)
+            .setTagLibrary(AprilTagGameDatabase.getCurrentGameTagLibrary())
             .build()
 
     val visionPortal = VisionPortal.Builder()

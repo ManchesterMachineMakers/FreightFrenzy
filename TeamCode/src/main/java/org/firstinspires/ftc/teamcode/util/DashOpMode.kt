@@ -15,9 +15,7 @@ import java.util.concurrent.atomic.AtomicReference
 /**
  * To use DashOpMode, simply add it in your implementation clause
  *
- * #### TO USE VISION:
- * Add "vision.visionportal" to your initialization
- *
+ * #### TO USE VISION:*
  * After start, but before the loop, add "FtcDashboard.getInstance().startCameraStream(vision.dash, 0.0)"
  *
  * You can now view your camera stream on the dashboard
