@@ -14,10 +14,14 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.PoseUpdater;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.MathFunctions;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Vector;
+import org.firstinspires.ftc.teamcode.subassemblies.MecDriveBase;
+import org.firstinspires.ftc.teamcode.util.DashOpMode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import kotlin.reflect.jvm.internal.impl.descriptors.impl.DeclarationDescriptorNonRootImpl;
 
 /**
  * This is the StrafeVelocityTuner autonomous tuning OpMode. This runs the robot right at max
@@ -46,6 +50,7 @@ public class StrafeVelocityTuner extends OpMode {
     private List<DcMotorEx> motors;
 
     private PoseUpdater poseUpdater;
+    private MecDriveBase driveBase;
 
     public static double DISTANCE = 40;
     public static double RECORD_NUMBER = 10;
@@ -61,27 +66,19 @@ public class StrafeVelocityTuner extends OpMode {
     @Override
     public void init() {
         poseUpdater = new PoseUpdater(hardwareMap);
+        driveBase = new MecDriveBase(this);
 
-        leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
-        leftRear = hardwareMap.get(DcMotorEx.class, "leftRear");
-        rightRear = hardwareMap.get(DcMotorEx.class, "rightRear");
-        rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
-
-        // TODO: Make sure that this is the direction your motors need to be reversed in.
-        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftFront = driveBase.getLeftFront();
+        leftRear = driveBase.getLeftRear();
+        rightFront = driveBase.getRightFront();
+        rightRear = driveBase.getRightRear();
 
         motors = Arrays.asList(leftFront, leftRear, rightFront, rightRear);
 
-        for (DcMotorEx motor : motors) {
-            MotorConfigurationType motorConfigurationType = motor.getMotorType().clone();
-            motorConfigurationType.setAchieveableMaxRPMFraction(1.0);
-            motor.setMotorType(motorConfigurationType);
-        }
+        driveBase.updateMaxRPM();
+        driveBase.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
-        for (DcMotorEx motor : motors) {
-            motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        }
+        end = false;
 
         for (int i = 0; i < RECORD_NUMBER; i++) {
             velocities.add(0.0);

@@ -14,6 +14,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.PoseUpdater;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.MathFunctions;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Vector;
+import org.firstinspires.ftc.teamcode.subassemblies.MecDriveBase;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,6 +47,7 @@ public class ForwardVelocityTuner extends OpMode {
     private List<DcMotorEx> motors;
 
     private PoseUpdater poseUpdater;
+    private MecDriveBase driveBase;
 
     public static double DISTANCE = 40;
     public static double RECORD_NUMBER = 10;
@@ -61,27 +63,17 @@ public class ForwardVelocityTuner extends OpMode {
     @Override
     public void init() {
         poseUpdater = new PoseUpdater(hardwareMap);
+        driveBase = new MecDriveBase(this);
 
-        leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
-        leftRear = hardwareMap.get(DcMotorEx.class, "leftRear");
-        rightRear = hardwareMap.get(DcMotorEx.class, "rightRear");
-        rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
-
-        // TODO: Make sure that this is the direction your motors need to be reversed in.
-        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftFront = driveBase.getLeftFront();
+        leftRear = driveBase.getLeftRear();
+        rightFront = driveBase.getRightFront();
+        rightRear = driveBase.getRightRear();
 
         motors = Arrays.asList(leftFront, leftRear, rightFront, rightRear);
 
-        for (DcMotorEx motor : motors) {
-            MotorConfigurationType motorConfigurationType = motor.getMotorType().clone();
-            motorConfigurationType.setAchieveableMaxRPMFraction(1.0);
-            motor.setMotorType(motorConfigurationType);
-        }
-
-        for (DcMotorEx motor : motors) {
-            motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        }
+        driveBase.updateMaxRPM();
+        driveBase.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         for (int i = 0; i < RECORD_NUMBER; i++) {
             velocities.add(0.0);

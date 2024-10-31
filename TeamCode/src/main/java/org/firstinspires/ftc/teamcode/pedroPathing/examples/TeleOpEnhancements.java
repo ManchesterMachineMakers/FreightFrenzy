@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.pedroPathing.examples;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.teamcode.pedroPathing.follower.Follower;
@@ -20,6 +19,7 @@ import org.firstinspires.ftc.teamcode.subassemblies.MecDriveBase;
 @TeleOp(name = "Pedro Pathing TeleOp Enhancements", group = "Test")
 public class TeleOpEnhancements extends OpMode {
     private Follower follower;
+    private MecDriveBase driveBase;
 
     private DcMotorEx leftFront;
     private DcMotorEx leftRear;
@@ -31,17 +31,15 @@ public class TeleOpEnhancements extends OpMode {
      */
     @Override
     public void init() {
-        follower = new Follower(new MecDriveBase(this));
+        follower = new Follower(driveBase);
+        driveBase = new MecDriveBase(this);
 
-        leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
-        leftRear = hardwareMap.get(DcMotorEx.class, "leftRear");
-        rightRear = hardwareMap.get(DcMotorEx.class, "rightRear");
-        rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
+        leftFront = driveBase.getLeftFront();
+        leftRear = driveBase.getLeftRear();
+        rightRear = driveBase.getRightRear();
+        rightFront = driveBase.getRightFront();
 
-        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        driveBase.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
         follower.startTeleopDrive();
     }

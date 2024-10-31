@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.subassemblies
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior
+import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.DcMotorSimple
 import com.qualcomm.robotcore.hardware.Gamepad
 import org.firstinspires.ftc.teamcode.util.Subassembly
@@ -12,10 +13,10 @@ import kotlin.math.max
 
 class MecDriveBase(opMode: OpMode) : Subassembly(opMode, "Mecanum Drive Base") {
 
-    val leftFront = hardwareMap.dcMotor.get("left_front")
-    val rightFront = hardwareMap.dcMotor.get("right_front")
-    val leftRear = hardwareMap.dcMotor.get("left_rear")
-    val rightRear = hardwareMap.dcMotor.get("right_rear")
+    val leftFront = hardwareMap.dcMotor.get("left_front") as DcMotorEx
+    val rightFront = hardwareMap.dcMotor.get("right_front") as DcMotorEx
+    val leftRear = hardwareMap.dcMotor.get("left_rear") as DcMotorEx
+    val rightRear = hardwareMap.dcMotor.get("right_rear") as DcMotorEx
 
     private val motors = listOf(leftFront, rightFront, leftRear, rightRear)
 
@@ -67,4 +68,12 @@ class MecDriveBase(opMode: OpMode) : Subassembly(opMode, "Mecanum Drive Base") {
             for (motor in motors) motor.zeroPowerBehavior = value
             field = value
         }
+
+    fun updateMaxRPM() {
+        for (motor in motors) {
+            val motorConfigurationType = motor.motorType.clone()
+            motorConfigurationType.achieveableMaxRPMFraction = 1.0
+            motor.motorType = motorConfigurationType
+        }
+    }
 }

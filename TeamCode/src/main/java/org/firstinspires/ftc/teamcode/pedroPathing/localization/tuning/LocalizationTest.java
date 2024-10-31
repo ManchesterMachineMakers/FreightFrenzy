@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.PoseUpdater;
@@ -49,22 +48,15 @@ public class LocalizationTest extends OpMode {
         driveBase = new MecDriveBase(this);
         dashboardPoseTracker = new DashboardPoseTracker(poseUpdater);
 
-        leftFront = (DcMotorEx) driveBase.getLeftFront();
-        leftRear = (DcMotorEx) driveBase.getLeftRear();
-        rightFront = (DcMotorEx) driveBase.getRightFront();
-        rightRear = (DcMotorEx) driveBase.getRightRear();
+        leftFront = driveBase.getLeftFront();
+        leftRear = driveBase.getLeftRear();
+        rightFront = driveBase.getRightFront();
+        rightRear = driveBase.getRightRear();
 
         motors = Arrays.asList(leftFront, leftRear, rightFront, rightRear);
 
-        for (DcMotorEx motor : motors) {
-            MotorConfigurationType motorConfigurationType = motor.getMotorType().clone();
-            motorConfigurationType.setAchieveableMaxRPMFraction(1.0);
-            motor.setMotorType(motorConfigurationType);
-        }
-
-        for (DcMotorEx motor : motors) {
-            motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        }
+        driveBase.updateMaxRPM();
+        driveBase.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         telemetryA = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
         telemetryA.addLine("This will print your robot's position to telemetry while "
