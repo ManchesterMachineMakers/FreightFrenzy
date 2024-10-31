@@ -1,18 +1,18 @@
 package org.firstinspires.ftc.teamcode.opmodes
 
+import com.acmerobotics.dashboard.FtcDashboard
 import com.acmerobotics.dashboard.config.Config
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import org.firstinspires.ftc.teamcode.pedroPathing.follower.Follower
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.Pose
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.BezierCurve
-import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.BezierLine
-import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Path
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.PathBuilder
-import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.PathChain
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Point
 import org.firstinspires.ftc.teamcode.subassemblies.MecDriveBase
 import org.firstinspires.ftc.teamcode.subassemblies.Vision
+import org.firstinspires.ftc.teamcode.util.DashOpMode
+import org.firstinspires.ftc.teamcode.util.log
 import org.firstinspires.ftc.teamcode.util.toRadians
 
 /*
@@ -31,7 +31,7 @@ front on robot is x pos
  */
 
 @Autonomous(name = "Sample Autonomous")
-class SampleAuto: LinearOpMode() {
+class SampleAuto: LinearOpMode(), DashOpMode {
 
     val driveBase = MecDriveBase(this)
     val vision = Vision(this)
@@ -46,16 +46,33 @@ class SampleAuto: LinearOpMode() {
         )
         .setLinearHeadingInterpolation(startingHeading.toRadians(), endingHeading.toRadians())
 
+    val tagProcessor = vision.aprilTag
+
     override fun runOpMode() {
 
-        vision.aprilTag
+        val path = pathBuilder.build()
+
         follower.initialize()
         follower.setStartingPose(Pose(startingPosX, startingPosY, startingHeading.toRadians()))
 
         waitForStart()
 
         if (opModeIsActive()) {
-            follower.followPath(pathBuilder.build())
+
+            follower.followPath(path)
+            FtcDashboard.getInstance().startCameraStream(vision.dash, 0.0)
+
+            if (tagProcessor.freshDetections.size > 0) log("Detected AprilTag, ID = ${tagProcessor.freshDetections.first().id}")
+            for (tag in tagProcessor.detections) {
+                telemetry.addLine("\nTag ${tagProcessor.detections.indexOf(tag)}:")
+                telemetry.addData("Tag ID", tag.id)
+                telemetry.addData("x", tag.ftcPose.x)
+                telemetry.addData("y", tag.ftcPose.y)
+                telemetry.addData("z", tag.ftcPose.z)
+                telemetry.addData("roll", tag.ftcPose.roll)
+                telemetry.addData("pitch", tag.ftcPose.pitch)
+                telemetry.addData("yaw", tag.ftcPose.yaw)
+            }
         }
     }
 
