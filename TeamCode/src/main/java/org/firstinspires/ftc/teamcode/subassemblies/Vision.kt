@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.subassemblies
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
+import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName
 import org.firstinspires.ftc.vision.VisionPortal
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor
@@ -11,7 +12,7 @@ import org.firstinspires.ftc.teamcode.util.DashOpMode
 import org.firstinspires.ftc.teamcode.util.log
 import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase
 
-class Vision(opMode: LinearOpMode) {
+class Vision(opMode: OpMode) {
     private val hardwareMap = opMode.hardwareMap
     private val webcam = hardwareMap.get(WebcamName::class.java, "Webcam 1")
 

@@ -46,7 +46,7 @@ public class CurvedBackAndForth extends OpMode {
      */
     @Override
     public void init() {
-        follower = new Follower(new MecDriveBase(this));
+        follower = new Follower(new MecDriveBase(this), hardwareMap);
 
         forwards = new Path(new BezierCurve(new Point(0,0, Point.CARTESIAN), new Point(Math.abs(DISTANCE),0, Point.CARTESIAN), new Point(Math.abs(DISTANCE),DISTANCE, Point.CARTESIAN)));
         backwards = new Path(new BezierCurve(new Point(Math.abs(DISTANCE),DISTANCE, Point.CARTESIAN), new Point(Math.abs(DISTANCE),0, Point.CARTESIAN), new Point(0,0, Point.CARTESIAN)));

@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.localization.tuning;
 
+import static org.firstinspires.ftc.teamcode.util.MathKt.toRadians;
+
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
@@ -9,10 +11,13 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.pedroPathing.localization.Pose;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.PoseUpdater;
 import org.firstinspires.ftc.teamcode.pedroPathing.util.DashboardPoseTracker;
 import org.firstinspires.ftc.teamcode.pedroPathing.util.Drawing;
 import org.firstinspires.ftc.teamcode.subassemblies.MecDriveBase;
+import org.firstinspires.ftc.teamcode.subassemblies.Vision;
+import org.firstinspires.ftc.teamcode.util.DashOpMode;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,10 +32,16 @@ import java.util.List;
  */
 @Config
 @TeleOp(group = "Pedro Pathing Tuning", name = "Localization Test")
-public class LocalizationTest extends OpMode {
+public class LocalizationTest extends OpMode implements DashOpMode {
+
+    public static Double startingPosX = 0.0;
+    public static Double startingPosY = 48.0;
+    public static Double startingHeading = 0.0;
+
     private PoseUpdater poseUpdater;
     private MecDriveBase driveBase;
     private DashboardPoseTracker dashboardPoseTracker;
+    private Vision vision;
     private Telemetry telemetryA;
 
     private DcMotorEx leftFront;
@@ -47,6 +58,7 @@ public class LocalizationTest extends OpMode {
         poseUpdater = new PoseUpdater(hardwareMap);
         driveBase = new MecDriveBase(this);
         dashboardPoseTracker = new DashboardPoseTracker(poseUpdater);
+        vision = new Vision(this);
 
         leftFront = driveBase.getLeftFront();
         leftRear = driveBase.getLeftRear();
@@ -63,8 +75,12 @@ public class LocalizationTest extends OpMode {
                 + "allowing robot control through a basic mecanum drive on gamepad 1.");
         telemetryA.update();
 
+        poseUpdater.setStartingPose(new Pose(startingPosX, startingPosY, toRadians(startingHeading)));
+
         Drawing.drawRobot(poseUpdater.getPose(), "#4CAF50");
         Drawing.sendPacket();
+
+        FtcDashboard. getInstance().startCameraStream(vision.getDash(), 0.0);
     }
 
     /**

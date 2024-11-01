@@ -31,8 +31,8 @@ public class TeleOpEnhancements extends OpMode {
      */
     @Override
     public void init() {
-        follower = new Follower(driveBase);
         driveBase = new MecDriveBase(this);
+        follower = new Follower(driveBase, hardwareMap);
 
         leftFront = driveBase.getLeftFront();
         leftRear = driveBase.getLeftRear();

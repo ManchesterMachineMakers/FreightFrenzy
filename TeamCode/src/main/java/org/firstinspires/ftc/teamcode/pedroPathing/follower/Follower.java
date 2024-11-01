@@ -42,6 +42,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.util.PIDFController;
 import org.firstinspires.ftc.teamcode.subassemblies.MecDriveBase;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -143,8 +144,9 @@ public class Follower {
      *
      * @param driveBase DriveBase required
      */
-    public Follower(MecDriveBase driveBase) {
+    public Follower(MecDriveBase driveBase, HardwareMap hardwareMap) {
         this.driveBase = driveBase;
+        this.hardwareMap = hardwareMap;
         initialize();
     }
 
@@ -158,10 +160,12 @@ public class Follower {
         driveVectorScaler = new DriveVectorScaler(FollowerConstants.frontLeftVector);
         poseUpdater = new PoseUpdater(hardwareMap);
 
-        leftFront = (DcMotorEx) driveBase.getLeftFront();
-        rightFront = (DcMotorEx) driveBase.getRightFront();
-        leftRear = (DcMotorEx) driveBase.getLeftRear();
-        rightRear = (DcMotorEx) driveBase.getRightRear();
+        leftFront = driveBase.getLeftFront();
+        rightFront = driveBase.getRightFront();
+        leftRear = driveBase.getLeftRear();
+        rightRear = driveBase.getRightRear();
+
+        motors = Arrays.asList(leftFront, leftRear, rightFront, rightRear);
 
         for (DcMotorEx motor : motors) {
             MotorConfigurationType motorConfigurationType = motor.getMotorType().clone();
