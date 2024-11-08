@@ -66,8 +66,7 @@ class SampleAuto: LinearOpMode(), DashOpMode {
             while (opModeIsActive()) {
 //                if (tagProcessor.freshDetections != null && tagProcessor.freshDetections.size > 0) log("Detected AprilTag, ID = ${tagProcessor.freshDetections.first().id}")
 
-                driveBase.control(gamepad1)
-//                follower.update()
+                follower.update()
                 for (tag in tagProcessor.detections) {
                     tag.ftcPose ?: break
                     telemetryA.addLine("\nTag ${tagProcessor.detections.indexOf(tag)}:")
@@ -95,6 +94,6 @@ class SampleAuto: LinearOpMode(), DashOpMode {
         @JvmField var startingHeading = 0.0 // degrees
         @JvmField var endingPosX = 36.0
         @JvmField var endingPosY = 84.0
-        @JvmField var endingHeading = 0.0 // degrees
+        @JvmField var endingHeading = 180.0 // degrees
     }
 }

@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.tuning;
 
+import static org.firstinspires.ftc.teamcode.util.MathKt.toRadians;
+
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
@@ -8,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.pedroPathing.follower.Follower;
+import org.firstinspires.ftc.teamcode.pedroPathing.localization.Pose;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.BezierLine;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Path;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Point;
@@ -32,6 +35,9 @@ public class StraightBackAndForth extends OpMode {
     private Telemetry telemetryA;
 
     public static double DISTANCE = 40;
+    public static double startingPosX = 0;
+    public static double startingPosY = 0;
+    public static double startingHeading = 0; // degrees
 
     private boolean forward = true;
 
@@ -48,10 +54,10 @@ public class StraightBackAndForth extends OpMode {
     public void init() {
         follower = new Follower(new MecDriveBase(this), hardwareMap);
 
-        forwards = new Path(new BezierLine(new Point(0,0, Point.CARTESIAN), new Point(DISTANCE,0, Point.CARTESIAN)));
-        forwards.setConstantHeadingInterpolation(0);
-        backwards = new Path(new BezierLine(new Point(DISTANCE,0, Point.CARTESIAN), new Point(0,0, Point.CARTESIAN)));
-        backwards.setConstantHeadingInterpolation(0);
+        forwards = new Path(new BezierLine(new Point(startingPosX, startingPosY, Point.CARTESIAN), new Point(startingPosX + DISTANCE, startingPosY, Point.CARTESIAN)));
+        forwards.setConstantHeadingInterpolation(startingHeading);
+        backwards = new Path(new BezierLine(new Point(startingPosX + DISTANCE, startingPosY, Point.CARTESIAN), new Point(startingPosX, startingPosY, Point.CARTESIAN)));
+        backwards.setConstantHeadingInterpolation(startingHeading);
 
         follower.followPath(forwards);
 
@@ -60,6 +66,7 @@ public class StraightBackAndForth extends OpMode {
                             + " inches forward. The robot will go forward and backward continuously"
                             + " along the path. Make sure you have enough room.");
         telemetryA.update();
+        follower.setStartingPose(new Pose(startingPosX, startingPosY, toRadians(startingHeading)));
     }
 
     /**
