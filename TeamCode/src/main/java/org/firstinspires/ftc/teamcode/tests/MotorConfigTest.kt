@@ -9,9 +9,9 @@ import org.firstinspires.ftc.teamcode.util.DashOpMode
 @Autonomous(name = "Motor Configuration Test", group = "tests")
 class MotorConfigTest : LinearOpMode(), DashOpMode {
 
-    val driveBase = MecDriveBase(this)
-
     override fun runOpMode() {
+        val driveBase = MecDriveBase(this)
+
         val leftFront = driveBase.leftFront
         val rightFront = driveBase.rightFront
         val leftRear = driveBase.leftRear
