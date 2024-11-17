@@ -22,10 +22,10 @@ class MecDriveBase(opMode: OpMode) : Subassembly(opMode, "Mecanum Drive Base") {
 
     init {
         // direction = FORWARD by default
-        leftFront.direction = DcMotorSimple.Direction.REVERSE
-//        rightFront.direction = DcMotorSimple.Direction.REVERSE
-        leftRear.direction = DcMotorSimple.Direction.REVERSE
-//        rightRear.direction = DcMotorSimple.Direction.REVERSE
+//        leftFront.direction = DcMotorSimple.Direction.REVERSE
+        rightFront.direction = DcMotorSimple.Direction.REVERSE
+//        leftRear.direction = DcMotorSimple.Direction.REVERSE
+        rightRear.direction = DcMotorSimple.Direction.REVERSE
 
 
         opMode.log("DriveBase successfully initialized")
@@ -40,9 +40,9 @@ class MecDriveBase(opMode: OpMode) : Subassembly(opMode, "Mecanum Drive Base") {
     fun control(gamepad: Gamepad) {
         zeroPowerBehavior = ZeroPowerBehavior.BRAKE
 
-        val leftX = powerCurve(-gamepad.left_stick_x.toDouble())
-        val leftY = powerCurve(gamepad.left_stick_y.toDouble())
-        val rightX = powerCurve(-gamepad.right_stick_x.toDouble())
+        val leftX = powerCurve(gamepad.left_stick_x.toDouble())
+        val leftY = powerCurve(-gamepad.left_stick_y.toDouble())
+        val rightX = powerCurve(gamepad.right_stick_x.toDouble())
 
         moveRobot(leftX, leftY, rightX)
     }
