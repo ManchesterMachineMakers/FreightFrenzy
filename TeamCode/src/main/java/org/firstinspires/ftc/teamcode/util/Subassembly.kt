@@ -1,10 +1,10 @@
 package org.firstinspires.ftc.teamcode.util
 
+import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import org.firstinspires.ftc.robotcore.external.Telemetry
 
-abstract class Subassembly(protected val opMode: LinearOpMode, protected val name: String) {
+abstract class Subassembly(protected val opMode: OpMode, protected val name: String) {
 
     var status = "unknown"
     protected val telemetry: Telemetry

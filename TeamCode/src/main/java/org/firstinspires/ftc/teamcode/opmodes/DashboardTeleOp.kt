@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.opmodes
 import com.acmerobotics.dashboard.FtcDashboard
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
-import org.firstinspires.ftc.teamcode.subassemblies.DriveBase
+import org.firstinspires.ftc.teamcode.subassemblies.MecDriveBase
 import org.firstinspires.ftc.teamcode.subassemblies.Vision
 import org.firstinspires.ftc.teamcode.util.DashOpMode
 
@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.util.DashOpMode
 class DashboardTeleOp : LinearOpMode(), DashOpMode {
 
     override fun runOpMode() {
-        val driveBase = DriveBase(this)
+        val driveBase = MecDriveBase(this)
         val vision = Vision(this)
 
         vision.visionPortal

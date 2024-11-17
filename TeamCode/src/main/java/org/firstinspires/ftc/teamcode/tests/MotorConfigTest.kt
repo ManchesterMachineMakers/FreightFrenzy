@@ -3,26 +3,30 @@ package org.firstinspires.ftc.teamcode.tests
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.hardware.DcMotor
-import com.qualcomm.robotcore.hardware.DcMotorSimple
-import org.firstinspires.ftc.teamcode.util.configDriveMotor
+import org.firstinspires.ftc.teamcode.subassemblies.MecDriveBase
+import org.firstinspires.ftc.teamcode.util.DashOpMode
 
 @Autonomous(name = "Motor Configuration Test", group = "tests")
-class MotorConfigTest : LinearOpMode() {
+class MotorConfigTest : LinearOpMode(), DashOpMode {
 
     override fun runOpMode() {
-        val leftFront = hardwareMap.get(DcMotor::class.java, "left_front")
-        val rightFront = hardwareMap.get(DcMotor::class.java, "right_front")
-        val leftRear = hardwareMap.get(DcMotor::class.java, "left_rear")
-        val rightRear = hardwareMap.get(DcMotor::class.java, "right_rear")
+        val driveBase = MecDriveBase(this)
+
+        val leftFront = driveBase.leftFront
+        val rightFront = driveBase.rightFront
+        val leftRear = driveBase.leftRear
+        val rightRear = driveBase.rightRear
 
         val motors = listOf(leftFront, rightFront, leftRear, rightRear)
 
-        for (motor in motors) motor.configDriveMotor(DcMotorSimple.Direction.FORWARD, DcMotor.RunMode.RUN_USING_ENCODER)
+        driveBase.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
 
         waitForStart()
 
         if (opModeIsActive()) {
-            telemetry.addLine("Ports")
+            telemetry.addLine("Assuming the motors are configured correctly then the following order of motors")
+            telemetry.addLine("should move: leftFront, rightFront, leftRear, rightRear")
+            telemetry.addLine("Ports:")
             telemetry.addData("left front ", leftFront.portNumber)
             telemetry.addData("right front", rightFront.portNumber)
             telemetry.addData("left rear  ", leftRear.portNumber)

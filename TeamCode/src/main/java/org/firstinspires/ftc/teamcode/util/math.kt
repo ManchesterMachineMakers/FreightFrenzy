@@ -1,3 +1,4 @@
+@file:Suppress("unused")
 package org.firstinspires.ftc.teamcode.util
 
 import kotlin.math.*
@@ -20,8 +21,15 @@ fun degreesToServoPosition(degrees: Double, scaleRange: Pair<Double, Double>): D
     return degrees / (scale * 300) - (0.5 * scale)
 }
 
+/** **radians** to degrees */
 fun Double.toDegrees() = this * 180 / PI
+/** **degrees** to radians */
 fun Double.toRadians() = this * PI / 180
+
+/** **centimeters** to inches */
+fun Double.toInches() = this * 2.54
+/** **inches** to centimeters */
+fun Double.toCentimeters() = this / 2.54
 
 fun powerCurve(value: Double) =
     if (value > 0) value.pow(2) // positive
