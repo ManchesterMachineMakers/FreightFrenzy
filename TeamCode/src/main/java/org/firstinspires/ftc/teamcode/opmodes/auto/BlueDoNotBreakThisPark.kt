@@ -13,8 +13,8 @@ import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Point
 import org.firstinspires.ftc.teamcode.subassemblies.MecDriveBase
 import org.firstinspires.ftc.teamcode.util.DashOpMode
 import org.firstinspires.ftc.teamcode.util.toRadians
-import java.lang.Math.toRadians
 
+@Config
 @Autonomous(name = "Blue DoNotBreakThisPark")
 class BlueDoNotBreakThisPark: LinearOpMode(), DashOpMode {
 
@@ -28,8 +28,8 @@ class BlueDoNotBreakThisPark: LinearOpMode(), DashOpMode {
             .addPath(
                 BezierCurve(
                     Point(startingPosX, startingPosY, Point.CARTESIAN),
-                    Point(15.000, 36.000, Point.CARTESIAN),
-                    Point(12.000, 12.000, Point.CARTESIAN)
+                    Point(-60.0, 56.0, Point.CARTESIAN),
+                    Point(-60.0, 60.0, Point.CARTESIAN)
                 )
 
             ).setConstantHeadingInterpolation(startingHeading.toRadians());
@@ -53,10 +53,8 @@ class BlueDoNotBreakThisPark: LinearOpMode(), DashOpMode {
         }
     }
 
-    @Config
-    companion object {
-        @JvmField var startingPosX = 12.0
-        @JvmField var startingPosY = 60.0
-        @JvmField var startingHeading = 0.0 // degrees
-    }
+    @JvmField var startingPosX = -12.0
+    @JvmField var startingPosY = 60.0
+    @JvmField var startingHeading = -180.0 // degrees
+
 }
