@@ -28,11 +28,10 @@ class BlueDoNotBreakThisPark: LinearOpMode(), DashOpMode {
             .addPath(
                 BezierCurve(
                     Point(startingPosX, startingPosY, Point.CARTESIAN),
-                    Point(-60.0, 56.0, Point.CARTESIAN),
+                    Point(-60.0, 50.0, Point.CARTESIAN),
                     Point(-60.0, 60.0, Point.CARTESIAN)
                 )
-
-            ).setConstantHeadingInterpolation(startingHeading.toRadians());
+            )
 
         val path = pathBuilder.build()
 
@@ -55,6 +54,6 @@ class BlueDoNotBreakThisPark: LinearOpMode(), DashOpMode {
 
     @JvmField var startingPosX = -12.0
     @JvmField var startingPosY = 60.0
-    @JvmField var startingHeading = -180.0 // degrees
+    @JvmField var startingHeading = 0.0 // degrees
 
 }
