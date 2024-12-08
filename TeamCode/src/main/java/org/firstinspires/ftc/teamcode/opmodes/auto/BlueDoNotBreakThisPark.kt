@@ -27,16 +27,17 @@ class BlueDoNotBreakThisPark: LinearOpMode(), DashOpMode {
         val pathBuilder = PathBuilder() // path generated with https://pedro-path-generator.vercel.app/
             .addPath(
                 BezierCurve(
-                    Point(startingPosX, startingPosY, Point.CARTESIAN),
-                    Point(-60.0, 50.0, Point.CARTESIAN),
+                    Point(-12.0, 65.5, Point.CARTESIAN), // points in inches
+                    Point(-12.0, 62.5, Point.CARTESIAN),
                     Point(-60.0, 60.0, Point.CARTESIAN)
                 )
             )
+            .setLinearHeadingInterpolation(0.0, 180.0.toRadians())
 
         val path = pathBuilder.build()
 
         follower.initialize()
-        follower.setStartingPose(Pose(startingPosX, startingPosY, startingHeading.toRadians()))
+        follower.setStartingPose(Pose(startingPosX, startingPosY, 0.0.toRadians()))
 
         waitForStart()
 
@@ -53,7 +54,7 @@ class BlueDoNotBreakThisPark: LinearOpMode(), DashOpMode {
     }
 
     @JvmField var startingPosX = -12.0
-    @JvmField var startingPosY = 60.0
+    @JvmField var startingPosY = 65.5
     @JvmField var startingHeading = 0.0 // degrees
 
 }
