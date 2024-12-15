@@ -16,7 +16,7 @@ class AltClawTeleOp: LinearOpMode() {
         // init, no movement allowed
         telemetry.isAutoClear = false
 
-//        val driveBase = MecDriveBase(this)
+        val driveBase = MecDriveBase(this)
         val claw = AltClaw(this)
         val linearSlide = LinearSlide(this)
         // add other subassemblies here
@@ -39,7 +39,7 @@ class AltClawTeleOp: LinearOpMode() {
                 telemetry.addData("G1 Right XY", gamepad1.right_stick_y)
 
                 // Subassembly control
-//                driveBase.control(gamepad1)
+                driveBase.control(gamepad1)
                 claw.control(gamepad2)
                 linearSlide.control(gamepad2)
                 // control other subassemblies here
