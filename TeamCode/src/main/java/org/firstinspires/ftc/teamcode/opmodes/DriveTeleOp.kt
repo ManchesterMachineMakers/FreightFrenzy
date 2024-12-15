@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.util.ElapsedTime
 import org.firstinspires.ftc.teamcode.subassemblies.MecDriveBase
 import org.firstinspires.ftc.teamcode.util.log
 
-@TeleOp(name = "Main TeleOp (preferred)", group = "main")
-class MainTeleOp: LinearOpMode() {
+@TeleOp(name = "Drive TeleOp", group = "main")
+class DriveTeleOp: LinearOpMode() {
 
     override fun runOpMode() {
         // init, no movement allowed
