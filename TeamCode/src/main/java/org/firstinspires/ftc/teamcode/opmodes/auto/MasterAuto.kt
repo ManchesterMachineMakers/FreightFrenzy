@@ -23,7 +23,8 @@ class MasterAuto(val alliance: Alliance, val startPosition: StartPosition, val g
     }
 
     enum class Goal {
-        PARK, LVL1_ASCEND, SCORE_SPECIMEN
+        PARK, LVL1_ASCEND, SCORE_SAMPLE, SCORE_SPECIMEN_IN_PARK,
+        SCORE_SPECIMEN_IN_LOWER_BASKET, SCORE_SPECIMEN_IN_UPPER_BASKET
     }
 
     override fun runOpMode() {
@@ -46,6 +47,13 @@ class MasterAuto(val alliance: Alliance, val startPosition: StartPosition, val g
             Goal.PARK -> Path(
                 BezierCurve(
                     Point(getStartPose()),
+                    Point(parkZone)
+                )
+            )
+            Goal.LVL1_ASCEND -> Path(
+                BezierCurve(
+                    Point(getStartPose()),
+                    Point(ascensionZone)
                 )
             )
             else -> Path(
@@ -58,6 +66,8 @@ class MasterAuto(val alliance: Alliance, val startPosition: StartPosition, val g
     companion object {
         @JvmField var frontStartY = -12.0 // in
         @JvmField var backStartY = 36.0 // in
-        @JvmField var wallOffset = 12.0 // distance from center of robot to wall
+        @JvmField var wallOffset = 12.0 // distance from center of robot to wall (in)
+        val parkZone = Pose(60.0, 60.0)
+        val ascensionZone = Pose(-36.0, -12.0)
     }
 }
