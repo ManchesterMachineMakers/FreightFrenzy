@@ -13,7 +13,14 @@ class AprilTagTestAuto: LinearOpMode() {
 
         if (opModeIsActive()) {
             while (opModeIsActive()) {
-                telemetry.addData("Distance to April Tag", vision.aprilTagDistance(13))
+                val robotPose = vision.robotPose()
+
+                telemetry.addData("Robot X", robotPose?.position?.x)
+                telemetry.addData("Robot Y", robotPose?.position?.x)
+                telemetry.addData("Robot Z", robotPose?.position?.x)
+                telemetry.addData("Robot Roll", robotPose?.orientation?.roll)
+                telemetry.addData("Robot Pitch", robotPose?.orientation?.pitch)
+                telemetry.addData("Robot Yaw", robotPose?.orientation?.yaw)
                 idle()
             }
         }

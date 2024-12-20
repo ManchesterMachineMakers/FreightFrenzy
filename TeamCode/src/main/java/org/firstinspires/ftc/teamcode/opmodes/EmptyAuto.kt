@@ -14,7 +14,6 @@ class EmptyAuto: LinearOpMode() {
 
         if (opModeIsActive()) {
             while (opModeIsActive()) {
-                telemetry.addData("April Tag Distance", vision.aprilTagDistance(13))
                 idle()
             }
         }

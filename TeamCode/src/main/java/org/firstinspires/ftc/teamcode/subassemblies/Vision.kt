@@ -40,22 +40,16 @@ class Vision(private val opMode: OpMode) {
         private set
 
     /**
-     * Returns the distance away from the specified AprilTag.
-     * @param desiredTagId The ID of the tag.
+     * Returns information about the specified AprilTag, if found.
+     * @param desiredTagId The ID of the tag; if < 0, it will return the first tag found.
      */
-    fun aprilTagDistance(desiredTagId: Int): Double? {
-        val desiredTag = aprilTag.detections
+    fun findAprilTag(desiredTagId: Int)
+        = aprilTag.detections
             .filter { it.metadata != null }
             .find { it.metadata.id == desiredTagId || desiredTagId < 0 }
 
-        if(desiredTag == null) {
-            telemetry.addLine("AprilTag $desiredTagId not found.")
-            telemetry.update()
-            return null
-        }
-
-        return desiredTag.ftcPose.range
-    }
+    fun robotPose()
+        = findAprilTag(-1)?.robotPose
 
 
     private fun setManualExposure(exposureMS: Int, gain: Int) {
