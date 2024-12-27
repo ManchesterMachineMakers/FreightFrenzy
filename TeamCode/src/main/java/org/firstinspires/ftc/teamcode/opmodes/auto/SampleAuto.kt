@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodes
+package org.firstinspires.ftc.teamcode.opmodes.auto
 
 import com.acmerobotics.dashboard.FtcDashboard
 import com.acmerobotics.dashboard.config.Config
@@ -13,7 +13,6 @@ import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Point
 import org.firstinspires.ftc.teamcode.subassemblies.MecDriveBase
 import org.firstinspires.ftc.teamcode.subassemblies.Vision
 import org.firstinspires.ftc.teamcode.util.DashOpMode
-import org.firstinspires.ftc.teamcode.util.log
 import org.firstinspires.ftc.teamcode.util.toRadians
 
 /*
@@ -61,7 +60,7 @@ class SampleAuto: LinearOpMode(), DashOpMode {
         if (opModeIsActive()) {
 
             FtcDashboard.getInstance().startCameraStream(vision.dash, 0.0)
-            follower.followPath(path)
+            follower.followPath(path, true)
 
             while (opModeIsActive()) {
 //                if (tagProcessor.freshDetections != null && tagProcessor.freshDetections.size > 0) log("Detected AprilTag, ID = ${tagProcessor.freshDetections.first().id}")

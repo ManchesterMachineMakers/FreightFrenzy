@@ -14,7 +14,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase
 
 class Vision(opMode: OpMode) {
     private val hardwareMap = opMode.hardwareMap
-    private val webcam = hardwareMap.get(WebcamName::class.java, "Webcam 1")
+    private val webcam = hardwareMap.get(WebcamName::class.java, "Webcam 1") // for our squirrel overlords
 
     val dash = DashOpMode.CameraStreamProcessor()
 

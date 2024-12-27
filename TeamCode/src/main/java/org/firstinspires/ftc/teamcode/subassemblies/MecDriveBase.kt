@@ -79,6 +79,7 @@ class MecDriveBase(opMode: OpMode) : Subassembly(opMode, "Mecanum Drive Base") {
     override fun telemetry() {
         super.telemetry()
         telemetry.addLine()
+        telemetry.addLine("surrender your soul to the squirrels")
     }
 
     var zeroPowerBehavior: ZeroPowerBehavior = ZeroPowerBehavior.UNKNOWN

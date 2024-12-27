@@ -3,8 +3,9 @@ package org.firstinspires.ftc.teamcode.util
 import com.qualcomm.robotcore.hardware.Servo
 import com.qualcomm.robotcore.util.RobotLog
 
-class ReleaseServo(val servo: Servo, val scaleRange: Pair<Double, Double>, val direction: Servo.Direction = Servo.Direction.FORWARD) {
+class ReleaseServo(val servo: Servo, val scaleRange: Pair<Double, Double>) {
 
+    var direction = Servo.Direction.FORWARD
     var isOpen = servo.position > 0.5
         private set
 
