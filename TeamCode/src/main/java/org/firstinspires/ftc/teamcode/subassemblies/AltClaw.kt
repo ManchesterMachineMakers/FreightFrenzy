@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.util.Subassembly
 
 class AltClaw(opMode: OpMode) : Subassembly(opMode, "Alt Claw") {
 
-    val clawServo = ReleaseServo(hardwareMap.servo.get("alt_claw"), Pair(0.1, 0.8))
+    val clawServo = ReleaseServo(hardwareMap.servo.get("alt_claw"), Pair(0.0, 0.5))
     val rotateServo = hardwareMap.servo.get("alt_rotate")
 
     init {
