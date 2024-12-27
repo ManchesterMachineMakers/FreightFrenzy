@@ -29,6 +29,7 @@ class AltClawTeleOp: LinearOpMode() {
 
         if (opModeIsActive()) {
             log("Starting OpMode loop")
+            linearSlide.start()
             telemetry.isAutoClear = true
             telemetry.clear()
             while (opModeIsActive()) {

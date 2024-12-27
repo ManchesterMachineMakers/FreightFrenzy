@@ -20,7 +20,7 @@ class AltClaw(opMode: OpMode) : Subassembly(opMode, "Alt Claw") {
         if (gamepad.a) clawServo.open()
         if (gamepad.y) clawServo.close()
 
-        rotateServo.position += gamepad.right_stick_y * rotateServoCoefficient
+        rotateServo.position += gamepad.right_stick_x * rotateServoCoefficient
     }
 
     companion object {

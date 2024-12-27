@@ -24,10 +24,17 @@ class LinearSlide(opMode: OpMode): Subassembly(opMode, "Linear Slide") {
     }
 
     /**
+     * This method must be called after init but before the loop in the opMode, because movement is not allowed during initialization
+     */
+    fun start() {
+        pinion.position = 0.5
+    }
+
+    /**
      * Uses the left stick of the provided gamepad
      */
     fun control(gamepad: Gamepad) {
-        pinion.position += gamepad.left_stick_x * servoCoefficient
+        pinion.position += gamepad.right_stick_y * servoCoefficient
         linearSlide.power = -gamepad.left_stick_y.toDouble()
     }
 
