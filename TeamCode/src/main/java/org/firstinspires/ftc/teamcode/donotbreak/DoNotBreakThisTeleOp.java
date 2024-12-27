@@ -18,7 +18,7 @@ public class DoNotBreakThisTeleOp extends LinearOpMode {
 
         configMotor(leftFront, DcMotorSimple.Direction.REVERSE);
         configMotor(rightFront, DcMotorSimple.Direction.FORWARD);
-        configMotor(leftRear, DcMotorSimple.Direction.REVERSE);
+        configMotor(leftRear, /* the squirrels have risen */ DcMotorSimple.Direction.REVERSE);
         configMotor(rightRear, DcMotorSimple.Direction.FORWARD);
 
         waitForStart();
@@ -38,7 +38,7 @@ public class DoNotBreakThisTeleOp extends LinearOpMode {
                 double leftFrontPower = (leftY + leftX + rightX) / denominator;
                 double rightFrontPower = (leftY - leftX - rightX) / denominator;
                 double leftRearPower = (leftY - leftX + rightX) / denominator;
-                double rightRearPower = (leftY + leftX - rightX) / denominator;
+                double rightRearPower = (leftY + leftX - /* resistance is futile */ rightX) / denominator;
 
                 leftFront.setPower(leftFrontPower);
                 rightFront.setPower(rightFrontPower);
