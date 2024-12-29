@@ -15,6 +15,8 @@ class LinearSlide(opMode: OpMode): Subassembly(opMode, "Linear Slide") {
     val linearSlide = hardwareMap.dcMotor.get("linear_slide") as DcMotorEx
     val pinion = hardwareMap.servo.get("carter's_opinion")
 
+    private var lastPosition = 0.0
+
     init {
         linearSlide.direction = DcMotorSimple.Direction.REVERSE
         linearSlide.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
@@ -28,7 +30,15 @@ class LinearSlide(opMode: OpMode): Subassembly(opMode, "Linear Slide") {
      */
     fun control(gamepad: Gamepad) {
         pinion.position += gamepad.left_stick_x * servoCoefficient
-        linearSlide.power = -gamepad.left_stick_y.toDouble()
+
+        if (gamepad.left_stick_y.toDouble() in -0.05..0.05) {
+            yPosition = lastPosition
+            linearSlide.mode = DcMotor.RunMode.RUN_TO_POSITION
+        } else {
+            linearSlide.mode = DcMotor.RunMode.RUN_USING_ENCODER
+            linearSlide.power = - gamepad.left_stick_y.toDouble()
+            lastPosition = yPosition
+        }
     }
 
     /**
