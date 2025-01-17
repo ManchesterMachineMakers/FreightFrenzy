@@ -24,6 +24,6 @@ class AltClaw(opMode: OpMode) : Subassembly(opMode, "Alt Claw") {
     }
 
     companion object {
-        @JvmField var rotateServoCoefficient = 0.003 // this value should be the highest possible without the pinion overshooting it's controls
+        @JvmField var rotateServoCoefficient = 0.002 // this value should be the highest possible without the pinion overshooting it's controls
     }
 }
