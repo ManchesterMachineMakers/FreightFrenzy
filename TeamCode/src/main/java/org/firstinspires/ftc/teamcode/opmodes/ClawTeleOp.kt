@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.util.ElapsedTime
 import org.firstinspires.ftc.teamcode.subassemblies.Claw
+import org.firstinspires.ftc.teamcode.subassemblies.LinearSlide
 import org.firstinspires.ftc.teamcode.subassemblies.MecDriveBase
 import org.firstinspires.ftc.teamcode.util.log
 
@@ -15,6 +16,7 @@ class ClawTeleOp: LinearOpMode() {
         telemetry.isAutoClear = false
 
         val driveBase = MecDriveBase(this)
+        val linearSlide = LinearSlide(this)
         val claw = Claw(this)
         // add other subassemblies here
 
@@ -38,6 +40,7 @@ class ClawTeleOp: LinearOpMode() {
                 // Subassembly control
                 driveBase.control(gamepad1)
                 claw.control(gamepad2)
+                linearSlide.control(gamepad2)
                 // control other subassemblies here
 
                 telemetry.addData("Loop Time", loopTime.time())

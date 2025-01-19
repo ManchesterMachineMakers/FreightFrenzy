@@ -25,7 +25,7 @@ class Claw(opMode: OpMode): Subassembly(opMode, "Claw") {
         leftHand.direction = DcMotorSimple.Direction.REVERSE
 //        rightHand.direction = DcMotorSimple.Direction.REVERSE
 
-        wrist.scaleRange(0.2, 0.4)
+        wrist.scaleRange(0.1, 0.6)
     }
 
     fun control(gamepad: Gamepad) {
