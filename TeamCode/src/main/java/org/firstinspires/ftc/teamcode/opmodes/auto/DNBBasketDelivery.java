@@ -13,6 +13,18 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 @Autonomous(name = "BasketDeliveryByOTOS (Blocks to Java)", group = "OTOS")
 public class DNBBasketDelivery extends LinearOpMode {
 
+
+    // enable or disable position correction: useful for debugging
+    static final boolean USE_X = true;
+    static final boolean USE_Y = true;
+    static final boolean USE_HEADING = true;
+
+    static final double SLIDE_ENCODER_RES = 1425.1; // PPR
+    static final double SLIDE_GEAR_DIAMETER = 1.54; // in
+
+    static final int LOW_BASKET_POS = 42; // in
+    static final int ASCEND_POS = 20; // in
+
     private DcMotor leftRear;
     private DcMotor leftFront;
     private DcMotor rightRear;
@@ -23,19 +35,13 @@ public class DNBBasketDelivery extends LinearOpMode {
     private Servo pinion;
     private SparkFunOTOS OTOS; // Optical Tracking Odometry Sensor
 
-    int ASCEND_POS;
     SparkFunOTOS.Pose2D velocity;
     SparkFunOTOS.Pose2D pos;
     double currentH;
-    boolean USE_X;
-    double SLIDE_ENCODER_RES;
-    boolean USE_Y;
     double yDrive;
     double xDrive;
     double hDrive;
     double xError;
-    boolean USE_HEADING;
-    double SLIDE_GEAR_DIAMETER;
     double yError;
     double hError;
 
@@ -77,17 +83,35 @@ public class DNBBasketDelivery extends LinearOpMode {
             // Put run blocks here.
             altClaw.setPosition(1);
             altRotate.setPosition(0.8);
-            USE_Y = true;
-            USE_X = true;
-            USE_HEADING = true;
 
             raiseSlidesForSpecimen();
-            driveToPos(-47, 61, -135, 2, true);
+            driveToPos(
+                    -47,
+                    61,
+                    -135,
+                    2,
+                    true);
+
             scoreSpecimen();
-            driveToPos(-48, 36, -135, 10, false);
-            driveToPos(-12, 36, 0, 10, false);
+            driveToPos(
+                    -48,
+                    36,
+                    -135,
+                    10,
+                    false);
+            driveToPos(
+                    -12,
+                    36,
+                    0,
+                    10,
+                    false);
             ascend();
-            driveToPos(-12, 21.2, 0, 2, true);
+            driveToPos(
+                    -12,
+                    21.2,
+                    0,
+                    2,
+                    true);
         }
     }
 
@@ -118,8 +142,6 @@ public class DNBBasketDelivery extends LinearOpMode {
         MAX_AUTO_SPEED = 1;
         // Clip the turn speed to this max value (adjust for your robot)
         MAX_AUTO_TURN = 0.3;
-        SLIDE_ENCODER_RES = 1425.1;
-        SLIDE_GEAR_DIAMETER = 1.54;
         pos = OTOS.getPosition();
         // Get the x value from the given SparkFunOTOS.Pose2D object.
         currentH = pos.h;
@@ -133,9 +155,8 @@ public class DNBBasketDelivery extends LinearOpMode {
             // Get the x value from the given SparkFunOTOS.Pose2D object.
             currentH = pos.h;
             // Determine y, x, and heading error so we can use them to control the robot automatically.
-            // Get the x value from the given SparkFunOTOS.Pose2D object.
+            // Basic error correction based on just the P of PID
             xError = pos.x - targetX;
-            // Get the x value from the given SparkFunOTOS.Pose2D object.
             yError = pos.y - targetY;
             // Reverse the error if needed to allow for wrapping.
             hError = (currentH - targetH) * (Math.abs(currentH - targetH) >= 180 ? -1 : 1);
@@ -154,9 +175,6 @@ public class DNBBasketDelivery extends LinearOpMode {
      * Describe this function...
      */
     private void scoreSpecimen() {
-        int LOW_BASKET_POS;
-
-        LOW_BASKET_POS = 42;
         altRotate.setPosition(0.8);
         linearSlide.setTargetPosition((int) (SLIDE_ENCODER_RES * (LOW_BASKET_POS / (SLIDE_GEAR_DIAMETER * Math.PI))));
         linearSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -178,7 +196,6 @@ public class DNBBasketDelivery extends LinearOpMode {
      * Describe this function...
      */
     private void ascend() {
-        ASCEND_POS = 20;
         linearSlide.setTargetPosition((int) (SLIDE_ENCODER_RES * (ASCEND_POS / (SLIDE_GEAR_DIAMETER * Math.PI))));
         linearSlide.setPower(15);
         while (linearSlide.isBusy() && opModeIsActive()) {
