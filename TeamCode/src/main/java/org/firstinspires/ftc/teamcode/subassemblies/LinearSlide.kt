@@ -71,7 +71,7 @@ class LinearSlide(opMode: OpMode): Subassembly(opMode, "Linear Slide") {
         @JvmField var motorEncoderRes = 4800.0
         @JvmField var motorGearDiameter = 39.0 // mm
 
-        @JvmField var servoCoefficient = 0.003 // this value should be the highest possible without the pinion overshooting it's controls
+        @JvmField var servoCoefficient = 0.001 // this value should be the highest possible without the pinion overshooting it's controls
         @JvmField var servoGearDiameter = 18.0 // mm
     }
 }
