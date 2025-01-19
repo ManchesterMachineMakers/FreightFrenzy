@@ -32,5 +32,6 @@ fun Double.toInches() = this * 2.54
 fun Double.toCentimeters() = this / 2.54
 
 fun powerCurve(value: Double) =
-    if (value > 0) value.pow(2) // positive
-    else -value.pow(2) // negative
+    value.pow(3)
+//    if (value > 0) value.pow(2) // positive
+//    else -value.pow(2) // negative
