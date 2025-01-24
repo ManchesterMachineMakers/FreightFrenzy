@@ -15,8 +15,8 @@ import org.firstinspires.ftc.teamcode.util.ReleaseServo;
 public class BasketDelivery extends LinearOpMode {
 
     SparkFunOTOS.Pose2D STARTING_POSITION = new SparkFunOTOS.Pose2D(-61.8, 36, 0);
-    static final double HIGH_BASKET_POS = 42;
-    static final int ASCEND_POS = 20;
+    static final double HIGH_BASKET_POS = 84;
+    static final int ASCEND_POS = 40;
 
     private Follower follower;
     private LinearSlide linearSlide;
@@ -44,7 +44,7 @@ public class BasketDelivery extends LinearOpMode {
                     -47,
                     61,
                     -135,
-                    2,
+                    2.5,
                     true
             );
             scoreSpecimen();
@@ -57,7 +57,7 @@ public class BasketDelivery extends LinearOpMode {
             );
             follower.driveToPos(
                     -12,
-                    36,
+                    43,
                     0,
                     10,
                     false
@@ -74,11 +74,10 @@ public class BasketDelivery extends LinearOpMode {
 
     private void scoreSpecimen() {
         wristServo.setPosition(0.8);
-        linearSlide.getLinearSlide().setTargetPosition((int) (linearSlideMotor.getMotorType().getTicksPerRev() * (HIGH_BASKET_POS / (1.54 * Math.PI))));
-        linearSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        linearSlideMotor.setPower(1);
+        linearSlide.moveSlide(HIGH_BASKET_POS, 1);
         while (linearSlideMotor.isBusy() && opModeIsActive()) {
             telemetry.addData("linear slide pos", linearSlideMotor.getCurrentPosition());
+            telemetry.update();
         }
         linearSlideMotor.setPower(1);
         wristServo.setPosition(0.4);
@@ -87,6 +86,6 @@ public class BasketDelivery extends LinearOpMode {
         sleep(500);
         wristServo.setPosition(0.8);
         sleep(500);
-        linearSlideMotor.setTargetPosition(ASCEND_POS);
+        linearSlide.moveSlide(ASCEND_POS, 1);
     }
 }

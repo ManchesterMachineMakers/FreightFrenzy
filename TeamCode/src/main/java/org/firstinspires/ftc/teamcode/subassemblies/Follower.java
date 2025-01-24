@@ -24,7 +24,7 @@ public class Follower {
     static final double MAX_AUTO_SPEED = 1; // Clip the approach speed to this max value (adjust for your robot)
     static final double MAX_AUTO_TURN = 0.3; // Clip the turn speed to this max value (adjust for your robot)
 
-    static final SparkFunOTOS.Pose2D OTOS_OFFSET = new SparkFunOTOS.Pose2D(-61.8, 36, 0);
+    static final SparkFunOTOS.Pose2D OTOS_OFFSET = new SparkFunOTOS.Pose2D(0, 0, 0);
     static final double OTOS_LINEAR_SCALAR = 1.01253481894;
     static final double OTOS_ANGULAR_SCALAR = 1;
 
@@ -86,7 +86,7 @@ public class Follower {
      * Positive x is strafe right.
      * Positive heading is counter-clockwise.
      */
-    public void driveToPos(int targetX, double targetY, int targetH, int tolerance, boolean holdEnd) {
+    public void driveToPos(double targetX, double targetY, double targetH, double tolerance, boolean holdEnd) {
 
         pos = OTOS.getPosition();
         // Get the x value from the given SparkFunOTOS.Pose2D object.
@@ -163,7 +163,7 @@ public class Follower {
     /**
      * Describe this function...
      */
-    private boolean robotInTolerance(int tolerance) {
+    private boolean robotInTolerance(double tolerance) {
         boolean xInTolerance;
         boolean yInTolerance;
         boolean hInTolerance;
