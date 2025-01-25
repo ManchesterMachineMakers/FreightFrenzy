@@ -219,8 +219,6 @@ public class Follower extends Subassembly {
      * Configures the SparkFun OTOS
      */
     private void configureOTOS(SparkFunOTOS.Pose2D startingPosition) {
-        SparkFunOTOS.Pose2D offset;
-        SparkFunOTOS.Pose2D currentPosition;
         SparkFunOTOS.Version hwVersion;
         SparkFunOTOS.Version fwVersion;
 
