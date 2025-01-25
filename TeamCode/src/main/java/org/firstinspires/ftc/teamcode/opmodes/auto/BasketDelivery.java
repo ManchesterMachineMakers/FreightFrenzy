@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes.auto;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -9,14 +10,14 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.subassemblies.AltClaw;
 import org.firstinspires.ftc.teamcode.subassemblies.Follower;
 import org.firstinspires.ftc.teamcode.subassemblies.LinearSlide;
-import org.firstinspires.ftc.teamcode.util.ReleaseServo;
 
+@Config
 @Autonomous(name = "Basket Delivery", group = "OTOS", preselectTeleOp = "Alt Claw TeleOp")
 public class BasketDelivery extends LinearOpMode {
 
-    SparkFunOTOS.Pose2D STARTING_POSITION = new SparkFunOTOS.Pose2D(-61.8, 36, 0);
-    static final double HIGH_BASKET_POS = 84;
-    static final int ASCEND_POS = 40;
+    public static SparkFunOTOS.Pose2D STARTING_POSITION = new SparkFunOTOS.Pose2D(-61.8, 36, 0);
+    public static double HIGH_BASKET_POS = 38.4;
+    public static int ASCEND_POS = 40;
 
     private Follower follower;
     private LinearSlide linearSlide;
@@ -24,7 +25,6 @@ public class BasketDelivery extends LinearOpMode {
     private Servo pinionServo;
     private AltClaw claw;
     private Servo wristServo;
-    private ReleaseServo clawServo;
 
     @Override
     public void runOpMode() {
@@ -36,7 +36,6 @@ public class BasketDelivery extends LinearOpMode {
 
         claw = new AltClaw(this);
         wristServo = claw.getRotateServo();
-        clawServo = claw.getClawServo();
 
         waitForStart();
         if (opModeIsActive()) {
@@ -82,7 +81,7 @@ public class BasketDelivery extends LinearOpMode {
         linearSlideMotor.setPower(1);
         wristServo.setPosition(0.4);
         sleep(500);
-        clawServo.open();
+        claw.open();
         sleep(500);
         wristServo.setPosition(0.8);
         sleep(500);

@@ -1,38 +1,34 @@
 package org.firstinspires.ftc.teamcode.subassemblies;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.JavaUtil;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.util.Subassembly;
 
-public class Follower {
+@Config
+public class Follower extends Subassembly {
 
     // enable or disable position correction: useful for debugging
-    static final boolean USE_X = true;
-    static final boolean USE_Y = true;
-    static final boolean USE_HEADING = true;
+    public static boolean USE_X = true;
+    public static boolean USE_Y = true;
+    public static boolean USE_HEADING = true;
 
-    static final double DRIVE_GAIN = 0.03; // Forward Speed Control "Gain". e.g. Ramp up to 50% power at a 25 inch error. (0.50 / 25.0)
-    static final double TURN_GAIN = 0.02; // Turn Control "Gain". e.g. Ramp up to 25% power at a 25 degree error. (0.25 / 25.0)
-    static final double MAX_AUTO_SPEED = 1; // Clip the approach speed to this max value (adjust for your robot)
-    static final double MAX_AUTO_TURN = 0.3; // Clip the turn speed to this max value (adjust for your robot)
+    public static double DRIVE_GAIN = 0.03; // Forward Speed Control "Gain". e.g. Ramp up to 50% power at a 25 inch error. (0.50 / 25.0)
+    public static double TURN_GAIN = 0.02; // Turn Control "Gain". e.g. Ramp up to 25% power at a 25 degree error. (0.25 / 25.0)
+    public static double MAX_AUTO_SPEED = 0.4; // Clip the approach speed to this max value (adjust for your robot)
+    public static double MAX_AUTO_TURN = 0.3; // Clip the turn speed to this max value (adjust for your robot)
 
-    static final SparkFunOTOS.Pose2D OTOS_OFFSET = new SparkFunOTOS.Pose2D(0, 0, 0);
-    static final double OTOS_LINEAR_SCALAR = 1.01253481894;
-    static final double OTOS_ANGULAR_SCALAR = 1;
-
-    static final double SLIDE_ENCODER_RES = 1425.1; // PPR
-    static final double SLIDE_GEAR_DIAMETER = 1.54; // in
-
-    static final int LOW_BASKET_POS = 42; // in
-    static final int ASCEND_POS = 20; // in
+    public static SparkFunOTOS.Pose2D OTOS_OFFSET = new SparkFunOTOS.Pose2D(0, 0, 0);
+    public static double OTOS_LINEAR_SCALAR = 1.01253481894;
+    public static double OTOS_ANGULAR_SCALAR = 1;
 
     private LinearOpMode opMode;
     private HardwareMap hardwareMap;
@@ -43,9 +39,6 @@ public class Follower {
     private DcMotor leftFront;
     private DcMotor rightRear;
     private DcMotor rightFront;
-    private Servo altClaw;
-    private Servo altRotate;
-    private Servo pinion;
     private SparkFunOTOS OTOS; // Optical Tracking Odometry Sensor
 
     SparkFunOTOS.Pose2D startingPosition;
@@ -60,10 +53,11 @@ public class Follower {
     double hError;
 
     public Follower(LinearOpMode opMode, SparkFunOTOS.Pose2D startingPosition) {
+        super(opMode, "Follower");
         this.opMode = opMode;
         this.startingPosition = startingPosition;
         hardwareMap = opMode.hardwareMap;
-        telemetry = opMode.telemetry;
+        telemetry = getTelemetry();
 
         driveBase = new MecDriveBase(opMode);
 
@@ -96,7 +90,7 @@ public class Follower {
         // Get the x value from the given SparkFunOTOS.Pose2D object.
         yError = pos.y - targetY;
         hError = (currentH - targetH) * (Math.abs(currentH - targetH) >= 180 ? -1 : 1);
-        while ((!robotInTolerance(tolerance) || (holdEnd ? robotIsMoving() : false)) && opMode.opModeIsActive()) {
+        while ((!robotInTolerance(tolerance) || (holdEnd && robotIsMoving())) && opMode.opModeIsActive()) {
             pos = OTOS.getPosition();
             // Get the x value from the given SparkFunOTOS.Pose2D object.
             currentH = pos.h;
