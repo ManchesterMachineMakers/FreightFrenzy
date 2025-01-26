@@ -20,13 +20,13 @@ public class FullBasketAuto extends LinearOpMode {
 
     public static SparkFunOTOS.Pose2D startPose = new SparkFunOTOS.Pose2D(-61.8, 36, 0); // starting position
     public static SparkFunOTOS.Pose2D basketPose = new SparkFunOTOS.Pose2D(-47, 61, -135); // scoring position
-    public static SparkFunOTOS.Pose2D pickup1Pose = new SparkFunOTOS.Pose2D(-47, 36, 90); // first sample pickup
-    public static SparkFunOTOS.Pose2D pickup2Pose = new SparkFunOTOS.Pose2D(-47, 48, 90); // first sample pickup
+    public static SparkFunOTOS.Pose2D pickup1Pose = new SparkFunOTOS.Pose2D(-31, 40, 90); // first sample pickup
+    public static SparkFunOTOS.Pose2D pickup2Pose = new SparkFunOTOS.Pose2D(-31, 50, 90); // first sample pickup
     public static SparkFunOTOS.Pose2D ascendPose1 = new SparkFunOTOS.Pose2D(-12, 43, 0); // first ascension position to avoid hitting submersible
     public static SparkFunOTOS.Pose2D ascendPose2 = new SparkFunOTOS.Pose2D(-12, 21.2, 0); // second and actual ascension position
 
     public static double SLIDE_HIGH_BASKET_POS = 38.4;
-    public static double SLIDE_PICKUP_POS = 3;
+    public static double SLIDE_PICKUP_POS = 2;
     public static int SLIDE_ASCEND_POS = 20;
 
     private Follower follower;
@@ -69,7 +69,7 @@ public class FullBasketAuto extends LinearOpMode {
         claw.close();
         wristServo.setPosition(0.8);
         linearSlide.moveSlide(SLIDE_HIGH_BASKET_POS, 1);
-        follower.driveToPose(basketPose, 2.5, true);
+        follower.driveToPose(basketPose, 3, true);
         while (linearSlideMotor.isBusy() && opModeIsActive()) {
             telemetry.addData("linear slide pos", linearSlideMotor.getCurrentPosition());
             telemetry.update();
@@ -86,7 +86,7 @@ public class FullBasketAuto extends LinearOpMode {
         linearSlide.moveSlide(SLIDE_PICKUP_POS, 1);
         claw.open();
         wristServo.setPosition(0);
-        follower.driveToPose(pose, 2.5, true);
+        follower.driveToPose(pose, 3, true);
         while (linearSlideMotor.isBusy() && opModeIsActive()) {
             telemetry.addData("linear slide pos", linearSlideMotor.getCurrentPosition());
             telemetry.update();
@@ -97,8 +97,8 @@ public class FullBasketAuto extends LinearOpMode {
 
     private void ascend() {
         linearSlide.moveSlide(SLIDE_ASCEND_POS, 1);
-        follower.driveToPose(ascendPose1, 2.5, true);
-        follower.driveToPose(ascendPose2, 2.5, true);
+        follower.driveToPose(ascendPose1, 5, true);
+        follower.driveToPose(ascendPose2, 3, true);
         while (linearSlideMotor.isBusy() && opModeIsActive()) {
             telemetry.addData("linear slide pos", linearSlideMotor.getCurrentPosition());
             telemetry.update();

@@ -19,7 +19,8 @@ import org.firstinspires.ftc.teamcode.subassemblies.LinearSlide;
 public class PartBasketAuto extends LinearOpMode {
 
     public static SparkFunOTOS.Pose2D startPose = new SparkFunOTOS.Pose2D(-61.8, 36, 0); // starting position
-    public static SparkFunOTOS.Pose2D basketPose = new SparkFunOTOS.Pose2D(-47, 61, -135); // scoring position
+    public static SparkFunOTOS.Pose2D basketPose1 = new SparkFunOTOS.Pose2D(-47, 61, -135); // scoring position
+    public static SparkFunOTOS.Pose2D basketPose2 = new SparkFunOTOS.Pose2D(-45, 59, -135); // scoring position
     public static SparkFunOTOS.Pose2D ascendPose1 = new SparkFunOTOS.Pose2D(-12, 43, 0); // first ascension position to avoid hitting submersible
     public static SparkFunOTOS.Pose2D ascendPose2 = new SparkFunOTOS.Pose2D(-12, 21.2, 0); // second and actual ascension position
 
@@ -57,7 +58,7 @@ public class PartBasketAuto extends LinearOpMode {
         claw.close();
         wristServo.setPosition(0.8);
         linearSlide.moveSlide(SLIDE_HIGH_BASKET_POS, 1);
-        follower.driveToPose(basketPose, 2.5, true);
+        follower.driveToPose(basketPose1, 2.5, true);
         while (linearSlideMotor.isBusy() && opModeIsActive()) {
             telemetry.addData("linear slide pos", linearSlideMotor.getCurrentPosition());
             telemetry.update();
@@ -68,6 +69,7 @@ public class PartBasketAuto extends LinearOpMode {
         sleep(500);
         wristServo.setPosition(0.8);
         sleep(500);
+        follower.driveToPose(basketPose2, 2.5, false);
     }
 
     private void ascend() {
