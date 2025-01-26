@@ -11,13 +11,17 @@ import org.firstinspires.ftc.teamcode.subassemblies.AltClaw;
 import org.firstinspires.ftc.teamcode.subassemblies.Follower;
 import org.firstinspires.ftc.teamcode.subassemblies.LinearSlide;
 
+/**
+ * Loosely based off of <a href="https://pedropathing.com/examples/auto.html">PedroPathing's Example Auto</a>
+ */
 @Config
-@Autonomous(name = "Specimen", group = "OTOS", preselectTeleOp = "Alt Claw TeleOp")
-public class Specimen extends LinearOpMode {
+@Autonomous(group = "part", preselectTeleOp = "Alt Claw TeleOp")
+public class PartSpecimenAuto extends LinearOpMode {
 
-    public static SparkFunOTOS.Pose2D STARTING_POSITION = new SparkFunOTOS.Pose2D(-61.8, -36, 0);
+    public static SparkFunOTOS.Pose2D startPose = new SparkFunOTOS.Pose2D(-61.8, -36, 0); // starting position
+    public static SparkFunOTOS.Pose2D score1Pose = new SparkFunOTOS.Pose2D(-40, -5, 90); // first scoring position
+
     public static double HIGH_RUNG_POS = 30;
-    public static double PICKUP_POS = 3;
 
     private Follower follower;
     private LinearSlide linearSlide;
@@ -28,7 +32,7 @@ public class Specimen extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        follower = new Follower(this, STARTING_POSITION);
+        follower = new Follower(this, startPose);
 
         linearSlide = new LinearSlide(this);
         linearSlideMotor = linearSlide.getLinearSlide();
@@ -39,22 +43,16 @@ public class Specimen extends LinearOpMode {
 
         waitForStart();
         if (opModeIsActive()) {
-            claw.close();
-            pinionServo.setPosition(0.2);
-            linearSlide.moveSlide(HIGH_RUNG_POS, 1);
-            // move to rung
-            follower.driveToPos(
-                    -40,
-                    -5,
-                    -90,
-                    2.5,
-                    true
-            );
-            scoreSpecimen();
+            scoreSpecimen(score1Pose);
+            requestOpModeStop();
         }
     }
 
-    private void scoreSpecimen() {
+    private void scoreSpecimen(SparkFunOTOS.Pose2D pose) {
+        claw.close();
+        pinionServo.setPosition(0.2);
+        linearSlide.moveSlide(HIGH_RUNG_POS, 1);
+        follower.driveToPose(pose, 2.5, true);
         while(linearSlideMotor.isBusy()) {
             telemetry.addData("Linear Slide Position", linearSlideMotor.getCurrentPosition());
             telemetry.update();

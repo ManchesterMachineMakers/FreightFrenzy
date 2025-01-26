@@ -11,14 +11,23 @@ import org.firstinspires.ftc.teamcode.subassemblies.AltClaw;
 import org.firstinspires.ftc.teamcode.subassemblies.Follower;
 import org.firstinspires.ftc.teamcode.subassemblies.LinearSlide;
 
+/**
+ * Loosely based off of <a href="https://pedropathing.com/examples/auto.html">PedroPathing's Example Auto</a>
+ */
 @Config
-@Autonomous(name = "Basket Delivery", group = "OTOS", preselectTeleOp = "Alt Claw TeleOp")
-public class BasketDelivery extends LinearOpMode {
+@Autonomous(group = "full", preselectTeleOp = "Alt Claw TeleOp")
+public class FullBasketAuto extends LinearOpMode {
 
-    public static SparkFunOTOS.Pose2D STARTING_POSITION = new SparkFunOTOS.Pose2D(-61.8, 36, 0);
-    public static double HIGH_BASKET_POS = 40;
-    public static double PICKUP_POS = 3;
-    public static int ASCEND_POS = 20;
+    public static SparkFunOTOS.Pose2D startPose = new SparkFunOTOS.Pose2D(-61.8, 36, 0); // starting position
+    public static SparkFunOTOS.Pose2D basketPose = new SparkFunOTOS.Pose2D(-47, 61, -135); // scoring position
+    public static SparkFunOTOS.Pose2D pickup1Pose = new SparkFunOTOS.Pose2D(-47, 36, 90); // first sample pickup
+    public static SparkFunOTOS.Pose2D pickup2Pose = new SparkFunOTOS.Pose2D(-47, 48, 90); // first sample pickup
+    public static SparkFunOTOS.Pose2D ascendPose1 = new SparkFunOTOS.Pose2D(-12, 43, 0); // first ascension position to avoid hitting submersible
+    public static SparkFunOTOS.Pose2D ascendPose2 = new SparkFunOTOS.Pose2D(-12, 21.2, 0); // second and actual ascension position
+
+    public static double SLIDE_HIGH_BASKET_POS = 38.4;
+    public static double SLIDE_PICKUP_POS = 3;
+    public static int SLIDE_ASCEND_POS = 20;
 
     private Follower follower;
     private LinearSlide linearSlide;
@@ -29,7 +38,7 @@ public class BasketDelivery extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        follower = new Follower(this, STARTING_POSITION);
+        follower = new Follower(this, startPose);
 
         linearSlide = new LinearSlide(this);
         linearSlideMotor = linearSlide.getLinearSlide();
@@ -40,67 +49,27 @@ public class BasketDelivery extends LinearOpMode {
 
         waitForStart();
         if (opModeIsActive()) {
-            wristServo.setPosition(0.8);
-            linearSlide.moveSlide(HIGH_BASKET_POS, 1);
-            // move to basket
-            follower.driveToPos(
-                    -47,
-                    61,
-                    -135,
-                    2.5,
-                    true
-            );
+            // score preloaded sample
             scoreSample();
-            linearSlide.moveSlide(PICKUP_POS, 1);
-            // move to spike mark
-            follower.driveToPos(
-                    -47,
-                    36,
-                    -90,
-                    2.5,
-                    true
-            );
-            pickUpSample();
+            // pickup sample
+            pickUpSample(pickup1Pose);
             // try to score again
-            wristServo.setPosition(0.8);
-            linearSlide.moveSlide(HIGH_BASKET_POS, 1);
-            // move back to basket
-            follower.driveToPos(
-                    -47,
-                    61,
-                    -135,
-                    2.5,
-                    true
-            );
             scoreSample();
-            linearSlide.moveSlide(ASCEND_POS, 1);
-            follower.driveToPos(
-                    -48,
-                    36,
-                    -135,
-                    10,
-                    false
-            );
-            follower.driveToPos(
-                    -12,
-                    43,
-                    0,
-                    10,
-                    false
-            );
-            // ascend pos
-            follower.driveToPos(
-                    -12,
-                    21.2,
-                    0,
-                    2,
-                    true
-            );
+            // pickup sample again
+            pickUpSample(pickup2Pose);
+            // try to score again
+            scoreSample();
+            // go in for ascension
             ascend();
+            requestOpModeStop();
         }
     }
 
     private void scoreSample() {
+        claw.close();
+        wristServo.setPosition(0.8);
+        linearSlide.moveSlide(SLIDE_HIGH_BASKET_POS, 1);
+        follower.driveToPose(basketPose, 2.5, true);
         while (linearSlideMotor.isBusy() && opModeIsActive()) {
             telemetry.addData("linear slide pos", linearSlideMotor.getCurrentPosition());
             telemetry.update();
@@ -113,9 +82,11 @@ public class BasketDelivery extends LinearOpMode {
         sleep(500);
     }
 
-    private void pickUpSample() {
-        wristServo.setPosition(0);
+    private void pickUpSample(SparkFunOTOS.Pose2D pose) {
+        linearSlide.moveSlide(SLIDE_PICKUP_POS, 1);
         claw.open();
+        wristServo.setPosition(0);
+        follower.driveToPose(pose, 2.5, true);
         while (linearSlideMotor.isBusy() && opModeIsActive()) {
             telemetry.addData("linear slide pos", linearSlideMotor.getCurrentPosition());
             telemetry.update();
@@ -125,7 +96,9 @@ public class BasketDelivery extends LinearOpMode {
     }
 
     private void ascend() {
-        linearSlide.moveSlide(ASCEND_POS, 1);
+        linearSlide.moveSlide(SLIDE_ASCEND_POS, 1);
+        follower.driveToPose(ascendPose1, 2.5, true);
+        follower.driveToPose(ascendPose2, 2.5, true);
         while (linearSlideMotor.isBusy() && opModeIsActive()) {
             telemetry.addData("linear slide pos", linearSlideMotor.getCurrentPosition());
             telemetry.update();
